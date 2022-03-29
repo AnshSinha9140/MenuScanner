@@ -58,6 +58,7 @@ public class UserOtpAuthentication extends AppCompatActivity {
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
 
+
         }
     };
 

@@ -54,7 +54,11 @@ public class SelectedDishActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 frameLayout.setVisibility(View.VISIBLE);
-                getSupportFragmentManager().beginTransaction().replace(R.id.paymentContainer, new FragmentPay()).commit();
+                FragmentPay fragmentPay = new FragmentPay();
+                Bundle args  = new Bundle();
+                args.putString("orderAmount", String.valueOf(billAmount));
+                fragmentPay.setArguments(args);
+                getSupportFragmentManager().beginTransaction().replace(R.id.paymentContainer, fragmentPay).commit();
             }
         });
         reference = FirebaseDatabase.getInstance().getReference();
@@ -98,7 +102,6 @@ public class SelectedDishActivity extends AppCompatActivity {
                         counterBtn.setText(String.valueOf(snapshot.getChildrenCount()));
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             OrderDetails order = dataSnapshot.getValue(OrderDetails.class);
-
                             orderList.add(order);
                             if (order != null) {
                                 String price = order.getDishPrice();

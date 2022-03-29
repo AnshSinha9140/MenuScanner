@@ -34,8 +34,6 @@ public class FragmentPay extends Fragment {
     CircleImageView payerImage;
     TextView payerName, payerMobile, payableAmount, restaurantName;
     CircleImageView googlePay;
-
-
     // If user has not scan the QR code then no payment details will be shown to him
     LinearLayout linearLayout;
     CardView cardView;
@@ -44,7 +42,6 @@ public class FragmentPay extends Fragment {
     //// Firebase hooks ////
     FirebaseUser mUser;
     DatabaseReference reference;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,21 +55,25 @@ public class FragmentPay extends Fragment {
         restaurantName = view.findViewById(R.id.restaurant_name);
         googlePay = view.findViewById(R.id.googlePay);
 
-
         ///// Card View hooks ///////
         linearLayout = view.findViewById(R.id.linearLayout);
         cardView = view.findViewById(R.id.cardView);
         scanNowBtn = view.findViewById(R.id.scanNowBtn);
 
 
+        //get fragmant data
+        String totalPayment = getArguments().getString("orderAmount");
+        payableAmount.setText(totalPayment);
+
         ////// firebase hooks ////////
         reference = FirebaseDatabase.getInstance().getReference();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(mUser!= null) {
+            Toast.makeText(getContext(),"userdata is :" + mUser ,Toast.LENGTH_LONG).show();
+        }
 
         //// Method to fetch order details from the OrdersDatabase //////
         showDetails();
-
-
         scanNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
